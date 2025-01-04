@@ -10,6 +10,20 @@ import iconDark from '@/assets/images/icon-dark.png';
 export default function Popup() {
   const { settings, setSettings } = useSettings();
 
+  const handleOpenSidePanel = () => {
+    console.log('open side panel');
+    chrome.windows.getCurrent({ populate: false }, (currentWindow) => {
+      if (currentWindow?.id !== undefined) {
+        chrome.sidePanel
+          .open({ windowId: currentWindow.id })
+          .catch((error) => console.error('Failed to open side panel:', error));
+      } else {
+        console.error('Could not determine the current window.');
+      }
+    });
+    window.close();
+  };
+
   return (
     <div className="ext-h-96 ext-w-80 ext-bg-white ext-flex ext-flex-col ext-border-0 ext-p-0 ext-m-0">
       <div className="ext-w-full ext-h-full ext-flex ext-flex-col ext-justify-between ext-py-3 ext-px-3 ext-bg-background ext-text-foreground">
@@ -40,6 +54,12 @@ export default function Popup() {
             onChecked={(checked) => setSettings({ theme: checked ? 'dark' : 'light' })}
             subtitle={'Switch between dark mode applied to all extension modules.'}
           />
+          <Button 
+            onClick={handleOpenSidePanel}
+            className="ext-w-full"
+          >
+            Open Side Panel
+          </Button>
         </div>
 
         {/* FOOTER */}

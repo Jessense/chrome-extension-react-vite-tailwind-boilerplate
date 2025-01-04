@@ -34,6 +34,17 @@ chrome.runtime.onMessage.addListener((message) => {
   if (message?.type === MESSAGE_TYPES.OPEN_OPTIONS) {
     chrome.runtime.openOptionsPage();
   }
+  // if (message?.action === 'openSidePanel') {
+  //   chrome.windows.getCurrent({ populate: false }, (currentWindow) => {
+  //     if (currentWindow?.id !== undefined) {
+  //       chrome.sidePanel
+  //         .open({ windowId: currentWindow.id })
+  //         .catch((error) => console.error('Failed to open side panel:', error));
+  //     } else {
+  //       console.error('Could not determine the current window.');
+  //     }
+  //   });
+  // }
 });
 
 chrome.storage.onChanged.addListener((changes, area) => {
